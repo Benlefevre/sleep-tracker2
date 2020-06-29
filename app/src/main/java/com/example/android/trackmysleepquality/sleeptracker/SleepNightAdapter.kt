@@ -39,29 +39,26 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-
         holder.bind(item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater
-                .inflate(R.layout.list_item_sleep_night, parent, false)
-
-        return ViewHolder(view)
+        return ViewHolder.from(parent)
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        // TODO (01) Refactor the logic for creating the ViewHolder into a function called from().
+    class ViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
+        companion object {
+            fun from(parent: ViewGroup): ViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val view = layoutInflater
+                        .inflate(R.layout.list_item_sleep_night, parent, false)
+                return ViewHolder(view)
+            }
+        }
 
-        // TODO (02) Make the from() function into a companion object.
-
-        // TODO (03) Move the companion object into the ViewHolder class, and have it
-        // return a ViewHolder.
-
-        val sleepLength: TextView = itemView.findViewById(R.id.sleep_length)
-        val quality: TextView = itemView.findViewById(R.id.quality_string)
-        val qualityImage: ImageView = itemView.findViewById(R.id.quality_image)
+        private val sleepLength: TextView = itemView.findViewById(R.id.sleep_length)
+        private val quality: TextView = itemView.findViewById(R.id.quality_string)
+        private val qualityImage: ImageView = itemView.findViewById(R.id.quality_image)
 
         fun bind(item: SleepNight) {
             val res = itemView.context.resources
@@ -79,5 +76,4 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
             })
         }
     }
-
 }
